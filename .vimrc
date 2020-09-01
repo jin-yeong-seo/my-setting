@@ -41,6 +41,10 @@ Plugin 'Shougo/neco-vim'
 Plugin 'ncm2/ncm2-go'
 Plugin 'mdempsky/gocode', {'rtp': 'vim/'}
 
+"ncm2 rust support
+Plugin 'ncm2/ncm2-racer'
+Plugin 'rust-lang/rust.vim'
+
 "ncm2 snippet
 Plugin 'ncm2/ncm2-ultisnips'
 Plugin 'SirVer/ultisnips'
@@ -56,6 +60,7 @@ Plugin 'syngan/vim-vimlint'
 "vim basic plugins
 Plugin 'scrooloose/syntastic'
 Plugin 'Yggdroot/indentLine'
+
 "Plugin 'vim-scripts/taglist.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'tpope/vim-git'
@@ -63,6 +68,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'vim-airline/vim-airline'
 Plugin 't6tn4k/vim-c-posix-syntax'
+
 
 call vundle#end()
 
@@ -86,7 +92,7 @@ let g:syntastic_cpp_compiler_options = '-std=c++17'
 let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_vimlint_options = { 'EVL103': 1 }
 let g:syntastic_tex_checkers = ['chktex']
-
+let g:syntastic_rust_checkers = ['cargo', 'rustc']
 
 "for pintos
 let g:syntastic_cpp_config_file = '.config'
@@ -102,7 +108,7 @@ let g:ncm2#popup_limit = 10
 let g:ncm2#sorter = "abbrfuzzy"
 let g:ncm2#matcher = "abbrfuzzy"
 
-let g:neoinclude#paths = {'cpp': '/usr/local/include/' }
+"let g:neoinclude#paths = {'cpp': '/usr/include/c++/5.4.0/' }
 
 
 autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -158,7 +164,7 @@ au User Ncm2Plugin call ncm2#register_source({
             \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
             \ })
 
-let g:ncm2_pyclang#library_path = '/usr/local/Cellar/llvm/6.0.0/lib/libclang.dylib'
+let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang-3.8.0.so'
 
 
 "snippet settings   
@@ -218,7 +224,7 @@ inoremap <C-j> <C-o>j
 inoremap <C-k> <C-o>k
 inoremap <C-l> <C-o>l
 
-
+autocmd FileType rust setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=2 sw=2
 
 autocmd BufNewFile,BufRead *.fish set filetype=fish
