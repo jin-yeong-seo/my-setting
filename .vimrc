@@ -238,7 +238,7 @@ let g:markdown_syntax_conceal = 0
 au FileType c let &makeprg="gcc -std=gnu99 -g -o %< %"
 au FileType cpp let &makeprg="g++ -std=c++17 -g -o %< %"
 au FileType python let &makeprg="python3 %"
-au FileType go let &makeprg="go build -gcflags \"-N -l\" % && ./%<"
+au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
 au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
 
 
