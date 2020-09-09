@@ -45,6 +45,9 @@ Plugin 'mdempsky/gocode', {'rtp': 'vim/'}
 Plugin 'ncm2/ncm2-racer'
 Plugin 'rust-lang/rust.vim'
 
+"ncm2 tex support
+Plugin 'lervag/vimtex'
+
 "ncm2 snippet
 Plugin 'ncm2/ncm2-ultisnips'
 Plugin 'SirVer/ultisnips'
@@ -72,6 +75,25 @@ Plugin 't6tn4k/vim-c-posix-syntax'
 
 call vundle#end()
 
+"vimtex settings
+let g:tex_flavor = "latex"
+let g:vimtex_version_check = 0
+
+au User Ncm2Plugin call ncm2#register_source({
+            \ 'name' : 'vimtex',
+            \ 'priority': 1,
+            \ 'subscope_enable': 1,
+            \ 'complete_length': 1,
+            \ 'scope': ['tex'],
+            \ 'matcher': {'name': 'prefix', 'key': 'word'},
+            \ 'mark': 'tex',
+            \ 'word_pattern': '\w+',
+            \ 'complete_pattern': g:vimtex#re#ncm,
+            \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
+            \ })
+
+
+
 "syntastic settings
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -81,17 +103,18 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers=[ 'python', 'pyflakes' ]
 let g:syntastic_go_checkers = [ 'go' ]
 let g:syntastic_c_compiler='gcc'
 let g:syntastic_c_check_header = 1
-let g:syntastic_c_compiler_options = '-std=gnu99'
+let g:syntastic_c_compiler_options = '-std=c99'
 let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_compiler_options = '-std=c++17'
+let g:syntastic_cpp_compiler_options = '-std=c++14'
 let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_vimlint_options = { 'EVL103': 1 }
-let g:syntastic_tex_checkers = ['chktex']
+let g:syntastic_tex_checkers = ['lacheck']
 let g:syntastic_rust_checkers = ['cargo', 'rustc']
 
 "for pintos
@@ -164,8 +187,8 @@ au User Ncm2Plugin call ncm2#register_source({
             \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
             \ })
 
-let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang-3.8.0.so'
-
+let g:ncm2_pyclang#args_file_path = ['.clang_complete']
+let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang.so'
 
 "snippet settings   
 " Press enter key to trigger snippet expansion
@@ -186,6 +209,7 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
 let g:python_highlight_all = 1
+
 
 "ConqueGdb-settings
 let g:ConqueGdb_SrcSplit = 'left'
@@ -235,10 +259,10 @@ let g:tex_conceal = ""
 let g:markdown_syntax_conceal = 0
 
 
-au FileType c let &makeprg="gcc -std=gnu99 -g -o %< %"
-au FileType cpp let &makeprg="g++ -std=c++17 -g -o %< %"
+au FileType c let &makeprg="clang -std=c99 -g -o %< %"
+au FileType cpp let &makeprg="clang++ -std=c++14 -g -o %< %"
 au FileType python let &makeprg="python3 %"
 au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
 au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
-
+aut FileType tex let &makeprg="pdflatex %"
 
