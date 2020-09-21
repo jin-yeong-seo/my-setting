@@ -101,8 +101,11 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
 "let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers=[ 'python', 'pyflakes' ]
 let g:syntastic_go_checkers = [ 'go' ]
@@ -115,7 +118,9 @@ let g:syntastic_cpp_compiler_options = '-std=c++14'
 let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_vimlint_options = { 'EVL103': 1 }
 let g:syntastic_tex_checkers = ['lacheck']
-let g:syntastic_rust_checkers = ['cargo', 'rustc']
+let g:syntastic_rust_checkers = ['cargo']
+
+let g:rust_cargo_check_all_features = 1
 
 "for pintos
 let g:syntastic_cpp_config_file = '.config'
