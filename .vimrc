@@ -1,3 +1,4 @@
+
 set t_Co=256
 set mouse=a
 set encoding=utf-8
@@ -8,6 +9,7 @@ set splitright
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 filetype plugin indent on
+
 
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
@@ -39,7 +41,10 @@ Plugin 'Shougo/neco-vim'
 
 "ncm2 golang support
 Plugin 'ncm2/ncm2-go'
-Plugin 'mdempsky/gocode', {'rtp': 'vim/'}
+Plugin 'fatih/vim-go'
+Plugin 'stamblerre/gocode', {'rtp': 'nvim/'}
+
+
 
 "ncm2 rust support
 Plugin 'ncm2/ncm2-racer'
@@ -52,9 +57,6 @@ Plugin 'lervag/vimtex'
 Plugin 'ncm2/ncm2-ultisnips'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-
-"gdb plugin
-Plugin 'vim-scripts/Conque-GDB'
 
 "syntastic vimL plugin
 Plugin 'vim-jp/vim-vimlparser'
@@ -109,10 +111,10 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers=[ 'python', 'pyflakes' ]
 let g:syntastic_go_checkers = [ 'go' ]
-let g:syntastic_c_compiler='gcc'
+let g:syntastic_c_compiler='clang'
 let g:syntastic_c_check_header = 1
 let g:syntastic_c_compiler_options = '-std=c99'
-let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler_options = '-std=c++14'
 let g:syntastic_vim_checkers = ['vimlint']
@@ -193,7 +195,7 @@ au User Ncm2Plugin call ncm2#register_source({
             \ })
 
 let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang.so'
+"let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 
 "snippet settings   
 " Press enter key to trigger snippet expansion
@@ -215,9 +217,36 @@ let g:go_highlight_build_constraints = 1
 
 let g:python_highlight_all = 1
 
+"Tagbar settings
 
-"ConqueGdb-settings
-let g:ConqueGdb_SrcSplit = 'left'
+let g:tagbar_type_go = {
+	\ 'ctagstype' : 'go',
+	\ 'kinds'     : [
+		\ 'p:package',
+		\ 'i:imports:1',
+		\ 'c:constants',
+		\ 'v:variables',
+		\ 't:types',
+		\ 'n:interfaces',
+		\ 'w:fields',
+		\ 'e:embedded',
+		\ 'm:methods',
+		\ 'r:constructor',
+		\ 'f:functions'
+	\ ],
+	\ 'sro' : '.',
+	\ 'kind2scope' : {
+		\ 't' : 'ctype',
+		\ 'n' : 'ntype'
+	\ },
+	\ 'scope2kind' : {
+		\ 'ctype' : 't',
+		\ 'ntype' : 'n'
+	\ },
+	\ 'ctagsbin'  : 'gotags',
+	\ 'ctagsargs' : '-sort -silent'
+\ }
+
 
 "Taglist settings
 "let g:Tlist_Auto_Update = 1
@@ -238,8 +267,6 @@ set softtabstop=2
 nmap <C-g> :TagbarToggle<CR>
 vmap <C-x> :!pbcopy<CR>
 vmap <C-c> :w !pbcopy<CR><CR>
-nmap <F2> :ConqueTermVSplit zsh
-"nmap <F3> ::!ConqueGdb
 
 if has('nvim')
     nmap <C-\> :vsplit term://zsh<CR>
