@@ -41,10 +41,7 @@ Plugin 'Shougo/neco-vim'
 
 "ncm2 golang support
 Plugin 'ncm2/ncm2-go'
-Plugin 'fatih/vim-go'
 Plugin 'stamblerre/gocode', {'rtp': 'nvim/'}
-
-
 
 "ncm2 rust support
 Plugin 'ncm2/ncm2-racer'
@@ -74,8 +71,21 @@ Plugin 'tpope/vim-markdown'
 Plugin 'vim-airline/vim-airline'
 Plugin 't6tn4k/vim-c-posix-syntax'
 
+"auto formatter
+Plugin 'google/vim-maktaba'
+Plugin 'google/vim-codefmt'
 
 call vundle#end()
+
+
+"vim-codefmt settings
+augroup autoformat_settings
+  autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType python AutoFormatBuffer yapf
+  autocmd FileType rust AutoFormatBuffer rustfmt
+augroup END
+
 
 "vimtex settings
 let g:tex_flavor = "latex"
