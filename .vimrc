@@ -1,4 +1,3 @@
-
 set t_Co=256
 set mouse=a
 set encoding=utf-8
@@ -71,6 +70,7 @@ Plugin 'tpope/vim-markdown'
 Plugin 'vim-airline/vim-airline'
 Plugin 't6tn4k/vim-c-posix-syntax'
 
+
 "auto formatter
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
@@ -82,10 +82,9 @@ call vundle#end()
 augroup autoformat_settings
   autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
   autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType python AutoFormatBuffer yapf
+  autocmd FileType python AutoFormatBuffer autopep8
   autocmd FileType rust AutoFormatBuffer rustfmt
 augroup END
-
 
 "vimtex settings
 let g:tex_flavor = "latex"
@@ -205,6 +204,7 @@ au User Ncm2Plugin call ncm2#register_source({
             \ })
 
 let g:ncm2_pyclang#args_file_path = ['.clang_complete']
+let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang.so'
 "let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 
 "snippet settings   
@@ -228,7 +228,7 @@ let g:go_highlight_build_constraints = 1
 let g:python_highlight_all = 1
 
 "Tagbar settings
-
+let g:go_version_warning = 0
 let g:tagbar_type_go = {
 	\ 'ctagstype' : 'go',
 	\ 'kinds'     : [
