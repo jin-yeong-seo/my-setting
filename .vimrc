@@ -77,6 +77,8 @@ Plugin 'google/vim-codefmt'
 
 call vundle#end()
 
+"indentLine
+let g:indentLine_setConceal = 0
 
 "vim-codefmt settings
 augroup autoformat_settings
@@ -204,8 +206,8 @@ au User Ncm2Plugin call ncm2#register_source({
             \ })
 
 let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang.so'
-"let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+"let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang.so'
+let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 
 "snippet settings   
 " Press enter key to trigger snippet expansion
@@ -273,6 +275,7 @@ set et
 set ts=2
 set shiftwidth=2
 set softtabstop=2
+set conceallevel=0
 
 nmap <C-g> :TagbarToggle<CR>
 vmap <C-x> :!pbcopy<CR>
@@ -297,8 +300,6 @@ autocmd BufNewFile,BufRead *.fish set filetype=fish
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
-let g:tex_conceal = ""
-let g:markdown_syntax_conceal = 0
 
 
 au FileType c let &makeprg="clang -std=c99 -g -o %< %"
