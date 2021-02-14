@@ -28,6 +28,11 @@ Plugin 'ncm2/ncm2-neoinclude'
 Plugin 'Shougo/neoinclude.vim'
 Plugin 'fgrsnau/ncm2-otherbuf'
 
+"ncm2 typescript support
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'ncm2/nvim-typescript'
+
 "ncm2 python support
 Plugin 'ncm2/ncm2-jedi'
 
@@ -118,24 +123,30 @@ let g:syntastic_quiet_messages = {'level': 'warnings'}
 "let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-
 let g:syntastic_python_python_exec = 'python3'
 let g:syntastic_python_checkers=[ 'python', 'pyflakes' ]
+
 let g:syntastic_go_checkers = [ 'go' ]
+
 let g:syntastic_c_compiler='clang'
 let g:syntastic_c_check_header = 1
 let g:syntastic_c_compiler_options = '-std=c99'
+
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler_options = '-std=c++14'
+
 let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_vimlint_options = { 'EVL103': 1 }
-let g:syntastic_tex_checkers = ['lacheck']
-let g:syntastic_rust_checkers = ['cargo']
 
+let g:syntastic_tex_checkers = ['lacheck']
+
+let g:syntastic_rust_checkers = ['cargo']
 let g:rust_cargo_check_all_features = 1
 
-"for pintos
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+
 let g:syntastic_cpp_config_file = '.config'
 let g:syntastic_c_config_file = '.config'
 "ncm2 settings
@@ -206,7 +217,6 @@ au User Ncm2Plugin call ncm2#register_source({
             \ })
 
 let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-"let g:ncm2_pyclang#library_path = '/usr/lib/llvm-3.8/lib/libclang.so'
 let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
 
 "snippet settings   
