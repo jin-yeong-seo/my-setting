@@ -24,6 +24,7 @@ Plugin 'ncm2/ncm2-bufword'
 Plugin 'ncm2/ncm2-path'
 Plugin 'ncm2/ncm2-github'
 Plugin 'ncm2/ncm2-tmux'
+Plugin 'roxma/vim-tmux-clipboard'
 Plugin 'ncm2/ncm2-neoinclude'
 Plugin 'Shougo/neoinclude.vim'
 Plugin 'fgrsnau/ncm2-otherbuf'
@@ -339,10 +340,10 @@ else
 endif
 nmap <m-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
-inoremap <C-h> <C-o>h
-inoremap <C-j> <C-o>j
-inoremap <C-k> <C-o>k
-inoremap <C-l> <C-o>l
+"inoremap <C-h> <C-o>h
+"inoremap <C-j> <C-o>j
+"inoremap <C-k> <C-o>k
+"inoremap <C-l> <C-o>l
 
 autocmd FileType rust setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=2 sw=2
@@ -358,5 +359,5 @@ au FileType cpp let &makeprg="clang++ -std=c++14 -g -o %< %"
 au FileType python let &makeprg="python3 %"
 au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
 au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
-aut FileType tex let &makeprg="pdflatex %"
+au FileType tex let &makeprg="pdflatex %"
 
