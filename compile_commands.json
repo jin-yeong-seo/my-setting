@@ -1,0 +1,8 @@
+[
+{
+  "directory": "$HOME/",
+  "command": "/usr/bin/c++ -std=c++14",
+  "file": "*.cpp"
+
+}
+]
