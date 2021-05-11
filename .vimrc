@@ -76,12 +76,16 @@ Plugin 'tpope/vim-markdown'
 Plugin 'vim-airline/vim-airline'
 Plugin 't6tn4k/vim-c-posix-syntax'
 
-
 "auto formatter
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
 
 call vundle#end()
+
+"disable sql omni completion
+let g:omni_sql_no_default_maps = 1
+
+
 
 "indentLine
 let g:indentLine_setConceal = 0
