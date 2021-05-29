@@ -34,6 +34,10 @@ Plugin 'Shougo/vimproc.vim'
 Plugin 'Quramy/tsuquyomi'
 Plugin 'ncm2/nvim-typescript'
 
+"ncm2 java support
+Plugin 'ObserverOfTime/ncm2-jc2'
+Plugin 'artur-shaik/vim-javacomplete2'
+
 "ncm2 python support
 Plugin 'ncm2/ncm2-jedi'
 
@@ -80,11 +84,30 @@ Plugin 't6tn4k/vim-c-posix-syntax'
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
 
+"argment navigator"
+Plugin 'AndrewRadev/sideways.vim'
+
 call vundle#end()
+
+"move cusrosr in imode
+imap <C-h> <left>
+imap <C-j> <down>
+imap <C-k> <up>
+imap <C-l> <right>
+
+"argmentative setting
+nnoremap <c-h> :SidewaysJumpLeft<cr>
+nnoremap <c-l> :SidewaysJumpRight<cr>
+omap a <Plug>SidewaysArgumentTextobjI
+xmap a <Plug>SidewaysArgumentTextobjI
+
 
 "disable sql omni completion
 let g:omni_sql_no_default_maps = 1
 
+"disable javacomplete2 default mapping
+let g:JavaComplete_EnableDefaultMappings = 0
+let g:JavaComplete_InsertImports = 0
 
 
 "indentLine
@@ -271,8 +294,8 @@ let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/l
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
 " c-j c-k for moving in snippet
-let g:UltiSnipsJumpForwardTrigger	= "<c-l>"
-let g:UltiSnipsJumpBackwardTrigger	= "<c-j>"
+"let g:UltiSnipsJumpForwardTrigger	= "<c-l>"
+"let g:UltiSnipsJumpBackwardTrigger	= "<c-j>"
 let g:UltiSnipsExpandTrigger="<c-b>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 
@@ -344,10 +367,6 @@ else
 endif
 nmap <m-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
-"inoremap <C-h> <C-o>h
-"inoremap <C-j> <C-o>j
-"inoremap <C-k> <C-o>k
-"inoremap <C-l> <C-o>l
 
 autocmd FileType rust setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=2 sw=2
@@ -364,4 +383,4 @@ au FileType python let &makeprg="python3 %"
 au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
 au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
 au FileType tex let &makeprg="pdflatex %"
-
+au FileType java let &makeprg="javac %"
