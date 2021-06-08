@@ -98,8 +98,8 @@ imap <C-l> <right>
 "argmentative setting
 nnoremap <c-h> :SidewaysJumpLeft<cr>
 nnoremap <c-l> :SidewaysJumpRight<cr>
-omap a <Plug>SidewaysArgumentTextobjI
-xmap a <Plug>SidewaysArgumentTextobjI
+omap aa <Plug>SidewaysArgumentTextobjI
+xmap aa <Plug>SidewaysArgumentTextobjI
 
 
 "disable sql omni completion
