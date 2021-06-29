@@ -1,25 +1,38 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/issacseo/.oh-my-zsh"
 
 #export LC_ALL=en_KR.UTF-8
 
-export LC_ALL=en_US.UTF-8
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+
+export LC_ALL=en_US.UTF-8
 
 plugins=(
   git
+  fzf
 )
 
-source $ZSH/oh-my-zsh.sh
+
+#fzf settings
+export FZF_DEFAULT_COMMAND='fd --hidden'
+export FZF_DEFAULT_OPTS="--reverse --preview 'tree -C {} | head -50'"
+
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_CTRL_T_OPTS=$FZF_DEFAULT_OPTS
+
 
 export PS1="%~
 $ "
-export GOPATH=$HOME/goprojects
+export GOPATH=$HOME/.goprojects
 
 export PATH=$PATH:$GOPATH/bin
+
+export PATH=$PATH:/Users/issacseo/Library/Python/3.9/bin/
+
+export CPPFLAGS="-I/usr/local/opt/openjdk/include"
+
 
 export PATH=$PATH:/opt/local/bin
 export MANPATH=$MANPATH:/opt/local/share/man
@@ -33,3 +46,4 @@ alias vi='/usr/local/bin/vim'
 alias vim='nvim'
 
 
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
