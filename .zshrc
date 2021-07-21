@@ -22,14 +22,21 @@ export FZF_DEFAULT_OPTS="--reverse --preview 'tree -C {} | head -50'"
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS=$FZF_DEFAULT_OPTS
 
+#rust settings
+export PATH=$PATH:$HOME/.cargo/bin/
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+
+#go settings
+export GOPATH=$HOME/.goprojects
+export PATH=$PATH:$GOPATH/bin
+
+
+#python settings
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
 
 export PS1="%~
 $ "
-export GOPATH=$HOME/.goprojects
 
-export PATH=$PATH:$GOPATH/bin
-
-export PATH=$PATH:/Users/issacseo/Library/Python/3.9/bin/
 
 export CPPFLAGS="-I/usr/local/opt/openjdk/include"
 
