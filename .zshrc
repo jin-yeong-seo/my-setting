@@ -30,9 +30,9 @@ export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
 export GOPATH=$HOME/.goprojects
 export PATH=$PATH:$GOPATH/bin
 
-
 #python settings
-export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+export PATH=$PATH:/Users/issacseo/Library/Python/3.9/bin/
+
 
 export PS1="%~
 $ "
