@@ -2,10 +2,14 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 
+
 #export LC_ALL=en_KR.UTF-8
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#load tab completions
+autoload -Uz compinit && compinit -u
 
+#load fzf setting
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export LC_ALL=en_US.UTF-8
 
