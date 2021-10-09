@@ -19,7 +19,6 @@ Plugin 'VundleVim/Vundle.vim'
 "fzf tools
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-Plugin 'airblade/vim-rooter'
 
 "ncm2 basic tools
 Plugin 'ncm2/ncm2'
@@ -33,6 +32,10 @@ Plugin 'roxma/vim-tmux-clipboard'
 Plugin 'ncm2/ncm2-neoinclude'
 Plugin 'Shougo/neoinclude.vim'
 Plugin 'fgrsnau/ncm2-otherbuf'
+
+"ncm2 dictionary
+Plugin 'filipekiss/ncm2-look.vim'
+
 
 "ncm2 typescript support
 Plugin 'Shougo/vimproc.vim'
@@ -283,7 +286,7 @@ let g:syntastic_c_compiler_options = '-std=c99'
 let g:syntastic_cpp_quiet_messages = {'level': 'warnings'}
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_compiler_options = '-std=c++14'
+let g:syntastic_cpp_compiler_options = '-std=c++17'
 
 let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_vimlint_options = { 'EVL103': 1 }
@@ -457,9 +460,10 @@ autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
 
 au FileType c let &makeprg="clang -std=c99 -g -o %< %"
-au FileType cpp let &makeprg="clang++ -std=c++14 -g -o %< %"
+au FileType cpp let &makeprg="clang++ -std=c++17 -g -o %< %"
 au FileType python let &makeprg="python3 %"
 au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
 au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
 au FileType tex let &makeprg="pdflatex %"
+au FileType tex let g:ncm2_look_enabled=1
 au FileType java let &makeprg="javac %"
