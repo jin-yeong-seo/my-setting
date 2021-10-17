@@ -5,6 +5,9 @@ set backspace=indent,eol,start
 set nocompatible
 set splitright
 
+"use OS clipboard
+set clipboard=unnamed 
+
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 filetype plugin indent on
