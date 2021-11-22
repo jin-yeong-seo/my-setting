@@ -287,14 +287,14 @@ let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_c_compiler='clang'
 let g:syntastic_c_check_header = 1
 let g:syntastic_c_compiler_options = '-std=c99'
-let g:syntastic_c_config_file = '.config'
+let g:syntastic_c_config_file = '.clang_complete'
 
 let g:syntastic_cpp_checkers = ['gcc']
 let g:syntastic_cpp_quiet_messages = {'level': 'warnings'}
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler_options = '-std=c++17'
-let g:syntastic_cpp_config_file = '.config'
+let g:syntastic_cpp_config_file = '.clang_complete'
 
 let g:syntastic_make_checkers = ['gnumake']
 let g:syntastic_json_checkers = ['json_tool']
