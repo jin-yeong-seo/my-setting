@@ -81,6 +81,7 @@ Plugin 'syngan/vim-vimlint'
 
 "vim basic plugins
 Plugin 'scrooloose/syntastic'
+Plugin 'myint/syntastic-extras'
 Plugin 'Yggdroot/indentLine'
 
 "Plugin 'vim-scripts/taglist.vim'
@@ -204,7 +205,7 @@ augroup autoformat_settings
   autocmd FileType go AutoFormatBuffer gofmt
   autocmd FileType python AutoFormatBuffer autopep8
   autocmd FileType rust AutoFormatBuffer rustfmt
-
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
 augroup END
 
 "vimtex settings
@@ -278,18 +279,25 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_python_python_exec = 'python3'
-let g:syntastic_python_checkers=[ 'python', 'pyflakes' ]
+let g:syntastic_python_checkers=['python', 'pyflakes']
 
-let g:syntastic_go_checkers = [ 'go' ]
+let g:syntastic_go_checkers = ['govet']
 
+let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_c_compiler='clang'
 let g:syntastic_c_check_header = 1
 let g:syntastic_c_compiler_options = '-std=c99'
+let g:syntastic_c_config_file = '.clang_complete'
 
+let g:syntastic_cpp_checkers = ['gcc']
 let g:syntastic_cpp_quiet_messages = {'level': 'warnings'}
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_cpp_compiler_options = '-std=c++17'
+let g:syntastic_cpp_config_file = '.clang_complete'
+
+let g:syntastic_make_checkers = ['gnumake']
+let g:syntastic_json_checkers = ['json_tool']
 
 let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_vimlint_options = { 'EVL103': 1 }
@@ -302,8 +310,18 @@ let g:rust_cargo_check_all_features = 1
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 
-let g:syntastic_cpp_config_file = '.config'
-let g:syntastic_c_config_file = '.config'
+
+
+
+" see :h syntastic-loclist-callback
+function! SyntasticCheckHook(errors)
+  if !empty(a:errors)
+    let g:syntastic_loc_list_height = min([len(a:errors), 5])
+  endif
+endfunction
+
+
+
 "ncm2 settings
 " enable ncm2 for all buffers
 "
