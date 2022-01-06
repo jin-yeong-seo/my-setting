@@ -5,8 +5,6 @@ set backspace=indent,eol,start
 set nocompatible
 set splitright
 
-"use OS clipboard
-set clipboard=unnamed 
 
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -302,7 +300,9 @@ let g:syntastic_json_checkers = ['json_tool']
 let g:syntastic_vim_checkers = ['vimlint']
 let g:syntastic_vimlint_options = { 'EVL103': 1 }
 
-let g:syntastic_tex_checkers = ['chktex']
+"let g:syntastic_tex_checkers = ['chktex']
+
+let g:syntastic_tex_checkers = []
 
 let g:syntastic_rust_checkers = ['cargo']
 let g:rust_cargo_check_all_features = 1
@@ -485,6 +485,6 @@ au FileType cpp let &makeprg="clang++ -std=c++17 -g -o %< %"
 au FileType python let &makeprg="python3 %"
 au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
 au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
-au FileType tex let &makeprg="pdflatex %"
+au FileType tex let &makeprg="pdflatex main.tex"
 au FileType tex let g:ncm2_look_enabled=1
 au FileType java let &makeprg="javac %"
