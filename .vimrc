@@ -201,7 +201,7 @@ let g:indentLine_setConceal = 0
 augroup autoformat_settings
   autocmd FileType c,cpp,java,javascript,typescript AutoFormatBuffer clang-format
   autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType python AutoFormatBuffer autopep8
+  autocmd FileType python AutoFormatBuffer yapf
   autocmd FileType rust AutoFormatBuffer rustfmt
   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
 augroup END
@@ -389,8 +389,12 @@ au User Ncm2Plugin call ncm2#register_source({
             \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
             \ })
 
+
 let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+
+if has('macunix')
+  let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
+endif
 
 "snippet settings   
 " Press enter key to trigger snippet expansion
@@ -473,7 +477,7 @@ nmap <m-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 
 autocmd FileType rust setlocal ts=2 sw=2
-autocmd FileType python setlocal ts=2 sw=2
+autocmd FileType python setlocal ts=4 sw=4
 
 autocmd BufNewFile,BufRead *.fish set filetype=fish
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
