@@ -201,7 +201,7 @@ let g:indentLine_setConceal = 0
 augroup autoformat_settings
   autocmd FileType c,cpp,java,javascript,typescript AutoFormatBuffer clang-format
   autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType python AutoFormatBuffer yapf
+  autocmd FileType python AutoFormatBuffer autopep8
   autocmd FileType rust AutoFormatBuffer rustfmt
   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
 augroup END
