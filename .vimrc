@@ -64,6 +64,11 @@ Plugin 'stamblerre/gocode'
 Plugin 'ncm2/ncm2-racer'
 Plugin 'rust-lang/rust.vim'
 
+"ncm2 lsp support
+Plugin 'prabirshrestha/vim-lsp'
+Plugin 'ncm2/ncm2-vim-lsp'
+"Plugin 'mattn/vim-lsp-settings'
+
 "ncm2 snippet
 Plugin 'ncm2/ncm2-ultisnips'
 Plugin 'SirVer/ultisnips'
@@ -80,7 +85,6 @@ Plugin 'vim-airline/vim-airline'
 Plugin 't6tn4k/vim-c-posix-syntax'
 Plugin 'AndrewRadev/sideways.vim'
 Plugin 'dense-analysis/ale'
-
 
 call vundle#end()
 
@@ -210,6 +214,7 @@ let g:ncm2#auto_popup = 1
 let g:ncm2#popup_limit = 10
 let g:ncm2#sorter = "abbrfuzzy"
 let g:ncm2#matcher = "abbrfuzzy"
+let g:lsp_fold_enabled = 0
 
 "let g:neoinclude#paths = {'cpp': '/usr/include/c++/5.4.0/' }
 
