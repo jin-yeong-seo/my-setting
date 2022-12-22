@@ -37,7 +37,6 @@ Plugin 'fgrsnau/ncm2-otherbuf'
 "ncm2 dictionary
 Plugin 'filipekiss/ncm2-look.vim'
 
-
 "ncm2 typescript support
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Quramy/tsuquyomi'
@@ -59,45 +58,54 @@ Plugin 'Shougo/neco-vim'
 
 "ncm2 golang support
 Plugin 'ncm2/ncm2-go'
-Plugin 'stamblerre/gocode', {'rtp': 'nvim/'}
+Plugin 'stamblerre/gocode'
 
 "ncm2 rust support
 Plugin 'ncm2/ncm2-racer'
 Plugin 'rust-lang/rust.vim'
-
-"ncm2 tex support
-Plugin 'lervag/vimtex'
 
 "ncm2 snippet
 Plugin 'ncm2/ncm2-ultisnips'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
-"syntastic vimL plugin
-Plugin 'vim-jp/vim-vimlparser'
-Plugin 'syngan/vim-vimlint'
-
-"vim basic plugins
-Plugin 'scrooloose/syntastic'
-Plugin 'myint/syntastic-extras'
-Plugin 'Yggdroot/indentLine'
-
-"Plugin 'vim-scripts/taglist.vim'
-Plugin 'majutsushi/tagbar'
-Plugin 'tpope/vim-git'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-markdown'
-Plugin 'vim-airline/vim-airline'
-Plugin 't6tn4k/vim-c-posix-syntax'
-
 "auto formatter
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
 
-"argment navigator"
+"vim basic plugins
+Plugin 'Yggdroot/indentLine'
+Plugin 'majutsushi/tagbar'
+Plugin 'vim-airline/vim-airline'
+Plugin 't6tn4k/vim-c-posix-syntax'
 Plugin 'AndrewRadev/sideways.vim'
+Plugin 'dense-analysis/ale'
+
 
 call vundle#end()
+
+" ale settings
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_filetype_changed = 0
+let g:ale_lint_on_save = 1
+
+let g:ale_list_window_size = 5
+let g:ale_open_list = 1
+augroup CloseLoclistWindowGroup
+  autocmd!
+  autocmd QuitPre * if empty(&buftype) | lclose | endif
+augroup END
+
+let g:ale_linters = {
+\   'c': ['clang'],
+\   'cpp': ['clang'],
+\   'go': ['govet'],
+\   'java': ['javac'],
+\   'python': ['pyflakes'],
+\}
+
 
 " fzf settings
 " This is the default extra key bindings
@@ -185,142 +193,12 @@ nnoremap <c-l> :SidewaysJumpRight<cr>
 omap aa <Plug>SidewaysArgumentTextobjI
 xmap aa <Plug>SidewaysArgumentTextobjI
 
-
 "disable sql omni completion
 let g:omni_sql_no_default_maps = 1
 
 "disable javacomplete2 default mapping
 let g:JavaComplete_EnableDefaultMappings = 0
 let g:JavaComplete_InsertImports = 0
-
-
-"indentLine
-let g:indentLine_setConceal = 0
-
-"vim-codefmt settings
-augroup autoformat_settings
-  autocmd FileType c,cpp,java,javascript,typescript AutoFormatBuffer clang-format
-  autocmd FileType go AutoFormatBuffer gofmt
-  autocmd FileType python AutoFormatBuffer autopep8
-  autocmd FileType rust AutoFormatBuffer rustfmt
-  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-augroup END
-
-"vimtex settings
-let g:tex_flavor = "latex"
-let g:vimtex_version_check = 0
-
- au InsertEnter * call ncm2#enable_for_buffer()
-    au Filetype tex call ncm2#register_source({
-        \ 'name' : 'vimtex-cmds',
-        \ 'priority': 8, 
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'prefix', 'key': 'word'},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#cmds,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \ })
-    au Filetype tex call ncm2#register_source({
-        \ 'name' : 'vimtex-labels',
-        \ 'priority': 8, 
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'combine',
-        \             'matchers': [
-        \               {'name': 'substr', 'key': 'word'},
-        \               {'name': 'substr', 'key': 'menu'},
-        \             ]},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#labels,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \ })
-    au Filetype tex call ncm2#register_source({
-        \ 'name' : 'vimtex-files',
-        \ 'priority': 8, 
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'combine',
-        \             'matchers': [
-        \               {'name': 'abbrfuzzy', 'key': 'word'},
-        \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-        \             ]},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#files,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \ })
-    au Filetype tex call ncm2#register_source({
-        \ 'name' : 'bibtex',
-        \ 'priority': 8, 
-        \ 'complete_length': -1,
-        \ 'scope': ['tex'],
-        \ 'matcher': {'name': 'combine',
-        \             'matchers': [
-        \               {'name': 'prefix', 'key': 'word'},
-        \               {'name': 'abbrfuzzy', 'key': 'abbr'},
-        \               {'name': 'abbrfuzzy', 'key': 'menu'},
-        \             ]},
-        \ 'word_pattern': '\w+',
-        \ 'complete_pattern': g:vimtex#re#ncm2#bibtex,
-        \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-        \ })
-
-
-"syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_python_python_exec = 'python3'
-let g:syntastic_python_checkers=['python', 'pyflakes']
-
-let g:syntastic_go_checkers = ['govet']
-
-let g:syntastic_c_checkers = ['gcc']
-let g:syntastic_c_compiler='clang'
-let g:syntastic_c_check_header = 1
-let g:syntastic_c_compiler_options = '-std=c99'
-let g:syntastic_c_config_file = '.clang_complete'
-
-let g:syntastic_cpp_checkers = ['gcc']
-let g:syntastic_cpp_quiet_messages = {'level': 'warnings'}
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_check_header = 1
-let g:syntastic_cpp_compiler_options = '-std=c++17'
-let g:syntastic_cpp_config_file = '.clang_complete'
-
-let g:syntastic_make_checkers = ['gnumake']
-let g:syntastic_json_checkers = ['json_tool']
-
-let g:syntastic_vim_checkers = ['vimlint']
-let g:syntastic_vimlint_options = { 'EVL103': 1 }
-
-"let g:syntastic_tex_checkers = ['chktex']
-
-let g:syntastic_tex_checkers = []
-
-let g:syntastic_rust_checkers = ['cargo']
-let g:rust_cargo_check_all_features = 1
-
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
-
-
-
-
-" see :h syntastic-loclist-callback
-function! SyntasticCheckHook(errors)
-  if !empty(a:errors)
-    let g:syntastic_loc_list_height = min([len(a:errors), 5])
-  endif
-endfunction
-
-
 
 "ncm2 settings
 " enable ncm2 for all buffers
@@ -447,9 +325,17 @@ let g:tagbar_type_go = {
 \ }
 
 
-"Taglist settings
-"let g:Tlist_Auto_Update = 1
-"let g:Tlist_WinWidth = 40
+"indentLine
+let g:indentLine_setConceal = 0
+
+"vim-codefmt settings
+augroup autoformat_settings
+  autocmd FileType c,cpp,java,javascript,typescript AutoFormatBuffer clang-format
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType python AutoFormatBuffer autopep8
+  autocmd FileType rust AutoFormatBuffer rustfmt
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+augroup END
 
 syntax on
 syntax enable
