@@ -103,8 +103,8 @@ augroup CloseLoclistWindowGroup
 augroup END
 
 let g:ale_linters = {
-\   'c': ['clang'],
-\   'cpp': ['clang'],
+\   'c': ['clangd'],
+\   'cpp': ['clangd'],
 \   'go': ['govet'],
 \   'java': ['javac'],
 \   'python': ['pyflakes'],
