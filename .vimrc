@@ -105,7 +105,7 @@ augroup END
 let g:ale_linters = {
 \   'c': ['clangd'],
 \   'cpp': ['clangd'],
-\   'go': ['govet'],
+\   'go': ['gobuild'],
 \   'java': ['javac'],
 \   'python': ['pyflakes'],
 \}
