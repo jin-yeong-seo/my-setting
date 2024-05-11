@@ -37,37 +37,9 @@ Plugin 'fgrsnau/ncm2-otherbuf'
 "ncm2 dictionary
 Plugin 'filipekiss/ncm2-look.vim'
 
-"ncm2 typescript support
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Quramy/tsuquyomi'
-Plugin 'ncm2/nvim-typescript'
-
-"ncm2 java support
-Plugin 'ObserverOfTime/ncm2-jc2'
-Plugin 'artur-shaik/vim-javacomplete2'
-
-"ncm2 python support
-Plugin 'ncm2/ncm2-jedi'
-
-"ncm2 clang support
-Plugin 'ncm2/ncm2-pyclang'
-
-"ncm2 vimL support
-Plugin 'ncm2/ncm2-vim'
-Plugin 'Shougo/neco-vim'
-
-"ncm2 golang support
-Plugin 'ncm2/ncm2-go'
-Plugin 'stamblerre/gocode'
-
-"ncm2 rust support
-Plugin 'ncm2/ncm2-racer'
-Plugin 'rust-lang/rust.vim'
-
 "ncm2 lsp support
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'ncm2/ncm2-vim-lsp'
-"Plugin 'mattn/vim-lsp-settings'
 
 "ncm2 snippet
 Plugin 'ncm2/ncm2-ultisnips'
@@ -108,6 +80,7 @@ let g:ale_linters = {
 \   'go': ['gobuild'],
 \   'java': ['javac'],
 \   'python': ['pyflakes'],
+\   'vim': [],
 \}
 
 
@@ -200,10 +173,6 @@ xmap aa <Plug>SidewaysArgumentTextobjI
 "disable sql omni completion
 let g:omni_sql_no_default_maps = 1
 
-"disable javacomplete2 default mapping
-let g:JavaComplete_EnableDefaultMappings = 0
-let g:JavaComplete_InsertImports = 0
-
 "ncm2 settings
 " enable ncm2 for all buffers
 "
@@ -255,30 +224,6 @@ endfunction
 
 inoremap <expr> <Tab> Tab_Or_Complete()
 
-" wrap existing omnifunc
-" Note that omnifunc does not run in background and may probably block the
-" editor. If you don't want to be blocked by omnifunc too often, you could
-" add 180ms delay before the omni wrapper:
-"  'on_complete': ['ncm2#on_complete#delay', 180,
-"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-au User Ncm2Plugin call ncm2#register_source({
-            \ 'name' : 'css',
-            \ 'priority': 9,
-            \ 'subscope_enable': 1,
-            \ 'scope': ['css','scss'],
-            \ 'mark': 'css',
-            \ 'word_pattern': '[\w\-]+',
-            \ 'complete_pattern': ':\s*',
-            \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-            \ })
-
-
-let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-
-if has('macunix')
-  let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
-endif
-
 "snippet settings   
 " Press enter key to trigger snippet expansion
 " The parameters are the same as `:help feedkeys()`
@@ -289,6 +234,39 @@ inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 "let g:UltiSnipsJumpBackwardTrigger	= "<c-j>"
 let g:UltiSnipsExpandTrigger="<c-b>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
+
+
+"vim-lsp settings
+let g:lsp_signature_help_enabled = 0
+let g:lsp_diagnostics_enabled = 0
+
+"python lsp
+autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'python-language-server	',
+      \ 'cmd': {server_info->['pylsp']},
+      \ 'whitelist': ['python'],
+      \ })
+autocmd FileType python setlocal omnifunc=lsp#complete
+
+"golang lsp
+autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'go-lang',
+      \ 'cmd': {server_info->['gopls']},
+      \ 'whitelist': ['go'],
+      \ })
+autocmd FileType go setlocal omnifunc=lsp#complete
+
+"clang lsp
+autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'clangd',
+      \ 'cmd': {server_info->['clangd']},
+      \ 'whitelist': ['c', 'cpp'],
+      \ })
+autocmd FileType c setlocal omnifunc=lsp#complete
+autocmd FileType cpp setlocal omnifunc=lsp#complete
+
+
+
 
 "syntax highlight setting
 let g:go_highlight_structs = 1 
