@@ -57,11 +57,17 @@ Plugin 'vim-airline/vim-airline'
 Plugin 't6tn4k/vim-c-posix-syntax'
 Plugin 'AndrewRadev/sideways.vim'
 Plugin 'dense-analysis/ale'
+Plugin 'keith/swift.vim'
 
 call vundle#end()
 
+"vim-lsp settings
+let g:lsp_signature_help_enabled = 0
+let g:lsp_diagnostics_enabled = 0
+let g:lsp_completion_documentation_enabled = 0
+
 " ale settings
-let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_text_changed = 1
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
@@ -75,6 +81,7 @@ augroup CloseLoclistWindowGroup
 augroup END
 
 let g:ale_linters = {
+\   'swift': ['sourcekit'],
 \   'c': ['clangd'],
 \   'cpp': ['clangd'],
 \   'go': ['gobuild'],
@@ -236,9 +243,7 @@ let g:UltiSnipsExpandTrigger="<c-b>"
 let g:UltiSnipsRemoveSelectModeMappings = 0
 
 
-"vim-lsp settings
-let g:lsp_signature_help_enabled = 0
-let g:lsp_diagnostics_enabled = 0
+
 
 "python lsp
 autocmd User lsp_setup call lsp#register_server({
@@ -265,7 +270,13 @@ autocmd User lsp_setup call lsp#register_server({
 autocmd FileType c setlocal omnifunc=lsp#complete
 autocmd FileType cpp setlocal omnifunc=lsp#complete
 
-
+"swift lsp
+autocmd User lsp_setup call lsp#register_server({
+      \ 'name': 'sourcekit-lsp',
+      \ 'cmd': {server_info->['sourcekit-lsp']},
+      \ 'whitelist': ['swift'],
+      \ })
+autocmd FileType swift setlocal omnifunc=lsp#complete
 
 
 "syntax highlight setting
@@ -308,6 +319,8 @@ let g:tagbar_type_go = {
 \ }
 
 
+
+
 "indentLine
 let g:indentLine_setConceal = 0
 
@@ -315,6 +328,7 @@ let g:indentLine_setConceal = 0
 augroup autoformat_settings
   autocmd FileType c,cpp,java,javascript,typescript AutoFormatBuffer clang-format
   autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType swift AutoFormatBuffer swift-format
   autocmd FileType python AutoFormatBuffer autopep8
   autocmd FileType rust AutoFormatBuffer rustfmt
   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
@@ -328,9 +342,9 @@ set cindent
 set smartindent
 set nu
 set et
-set ts=2
-set shiftwidth=2
-set softtabstop=2
+set ts=4
+set shiftwidth=4
+set softtabstop=4
 set conceallevel=0
 
 nmap <C-g> :TagbarToggle<CR>
@@ -348,10 +362,11 @@ nmap <m-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 autocmd FileType rust setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=4 sw=4
 
-autocmd BufNewFile,BufRead *.fish set filetype=fish
+
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
+autocmd BufNewFile,BufRead *.swift setlocal filetype=swift
 
 au FileType c let &makeprg="clang -std=c99 -g -o %< %"
 au FileType cpp let &makeprg="clang++ -std=c++17 -g -o %< %"
