@@ -22,29 +22,10 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
 "ncm2 basic tools
+"pynvim 0.4.3 should be used
 Plugin 'ncm2/ncm2'
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
-Plugin 'ncm2/ncm2-bufword'
-Plugin 'ncm2/ncm2-path'
-Plugin 'ncm2/ncm2-github'
-Plugin 'ncm2/ncm2-tmux'
-Plugin 'roxma/vim-tmux-clipboard'
-Plugin 'ncm2/ncm2-neoinclude'
-Plugin 'Shougo/neoinclude.vim'
-Plugin 'fgrsnau/ncm2-otherbuf'
-
-"ncm2 dictionary
-Plugin 'filipekiss/ncm2-look.vim'
-
-"ncm2 lsp support
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'ncm2/ncm2-vim-lsp'
-
-"ncm2 snippet
-Plugin 'ncm2/ncm2-ultisnips'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 
 "auto formatter
 Plugin 'google/vim-maktaba'
@@ -52,19 +33,14 @@ Plugin 'google/vim-codefmt'
 
 "vim basic plugins
 Plugin 'Yggdroot/indentLine'
-Plugin 'majutsushi/tagbar'
+Plugin 'yegappan/taglist'
 Plugin 'vim-airline/vim-airline'
-Plugin 't6tn4k/vim-c-posix-syntax'
 Plugin 'AndrewRadev/sideways.vim'
 Plugin 'dense-analysis/ale'
-Plugin 'keith/swift.vim'
+Plugin 'preservim/tagbar'
 
 call vundle#end()
 
-"vim-lsp settings
-let g:lsp_signature_help_enabled = 0
-let g:lsp_diagnostics_enabled = 0
-let g:lsp_completion_documentation_enabled = 0
 
 " ale settings
 let g:ale_lint_on_text_changed = 1
@@ -72,6 +48,7 @@ let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_filetype_changed = 0
 let g:ale_lint_on_save = 1
+let g:ale_completion_enabled = 1
 
 let g:ale_list_window_size = 5
 let g:ale_open_list = 1
@@ -84,7 +61,7 @@ let g:ale_linters = {
 \   'swift': ['sourcekit'],
 \   'c': ['clangd'],
 \   'cpp': ['clangd'],
-\   'go': ['gobuild'],
+\   'go': ['gopls'],
 \   'java': ['javac'],
 \   'python': ['pyflakes'],
 \   'vim': [],
@@ -164,7 +141,6 @@ command! -bang -nargs=* GGrep
   \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
 
-
 "move cusrosr in imode
 imap <C-h> <left>
 imap <C-j> <down>
@@ -177,8 +153,6 @@ nnoremap <c-l> :SidewaysJumpRight<cr>
 omap aa <Plug>SidewaysArgumentTextobjI
 xmap aa <Plug>SidewaysArgumentTextobjI
 
-"disable sql omni completion
-let g:omni_sql_no_default_maps = 1
 
 "ncm2 settings
 " enable ncm2 for all buffers
@@ -190,7 +164,7 @@ let g:ncm2#auto_popup = 1
 let g:ncm2#popup_limit = 10
 let g:ncm2#sorter = "abbrfuzzy"
 let g:ncm2#matcher = "abbrfuzzy"
-let g:lsp_fold_enabled = 0
+"let g:lsp_fold_enabled = 0
 
 "let g:neoinclude#paths = {'cpp': '/usr/include/c++/5.4.0/' }
 
@@ -231,53 +205,6 @@ endfunction
 
 inoremap <expr> <Tab> Tab_Or_Complete()
 
-"snippet settings   
-" Press enter key to trigger snippet expansion
-" The parameters are the same as `:help feedkeys()`
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
-" c-j c-k for moving in snippet
-"let g:UltiSnipsJumpForwardTrigger	= "<c-l>"
-"let g:UltiSnipsJumpBackwardTrigger	= "<c-j>"
-let g:UltiSnipsExpandTrigger="<c-b>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
-
-
-
-
-"python lsp
-autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'python-language-server	',
-      \ 'cmd': {server_info->['pylsp']},
-      \ 'whitelist': ['python'],
-      \ })
-autocmd FileType python setlocal omnifunc=lsp#complete
-
-"golang lsp
-autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'go-lang',
-      \ 'cmd': {server_info->['gopls']},
-      \ 'whitelist': ['go'],
-      \ })
-autocmd FileType go setlocal omnifunc=lsp#complete
-
-"clang lsp
-autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'clangd',
-      \ 'cmd': {server_info->['clangd']},
-      \ 'whitelist': ['c', 'cpp'],
-      \ })
-autocmd FileType c setlocal omnifunc=lsp#complete
-autocmd FileType cpp setlocal omnifunc=lsp#complete
-
-"swift lsp
-autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'sourcekit-lsp',
-      \ 'cmd': {server_info->['sourcekit-lsp']},
-      \ 'whitelist': ['swift'],
-      \ })
-autocmd FileType swift setlocal omnifunc=lsp#complete
-
 
 "syntax highlight setting
 let g:go_highlight_structs = 1 
@@ -288,37 +215,7 @@ let g:go_highlight_build_constraints = 1
 
 let g:python_highlight_all = 1
 
-"Tagbar settings
 let g:go_version_warning = 0
-let g:tagbar_type_go = {
-	\ 'ctagstype' : 'go',
-	\ 'kinds'     : [
-		\ 'p:package',
-		\ 'i:imports:1',
-		\ 'c:constants',
-		\ 'v:variables',
-		\ 't:types',
-		\ 'n:interfaces',
-		\ 'w:fields',
-		\ 'e:embedded',
-		\ 'm:methods',
-		\ 'r:constructor',
-		\ 'f:functions'
-	\ ],
-	\ 'sro' : '.',
-	\ 'kind2scope' : {
-		\ 't' : 'ctype',
-		\ 'n' : 'ntype'
-	\ },
-	\ 'scope2kind' : {
-		\ 'ctype' : 't',
-		\ 'ntype' : 'n'
-	\ },
-	\ 'ctagsbin'  : 'gotags',
-	\ 'ctagsargs' : '-sort -silent'
-\ }
-
-
 
 
 "indentLine
@@ -347,7 +244,32 @@ set shiftwidth=4
 set softtabstop=4
 set conceallevel=0
 
+autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
+autocmd BufNewFile,BufRead *.swift setlocal filetype=swift
+
+autocmd FileType python setlocal ts=4 sw=4
+autocmd FileType swift setlocal ts=4 sw=4
+
 nmap <C-g> :TagbarToggle<CR>
+let g:tagbar_type_swift = {
+  \ 'ctagstype': 'swift',
+  \ 'kinds' : [
+    \ 'n:Enums',
+    \ 't:Typealiases',
+    \ 'p:Protocols',
+    \ 's:Structs',
+    \ 'c:Classes',
+    \ 'f:Functions',
+    \ 'v:Variables',
+    \ 'e:Extensions'
+  \ ],
+  \ 'sort' : 0
+\ }
+
+
+
+
 vmap <C-x> :!pbcopy<CR>
 vmap <C-c> :w !pbcopy<CR><CR>
 
@@ -359,20 +281,3 @@ endif
 nmap <m-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
 
-autocmd FileType rust setlocal ts=2 sw=2
-autocmd FileType python setlocal ts=4 sw=4
-
-
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
-autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
-autocmd BufNewFile,BufRead *.swift setlocal filetype=swift
-
-au FileType c let &makeprg="clang -std=c99 -g -o %< %"
-au FileType cpp let &makeprg="clang++ -std=c++17 -g -o %< %"
-au FileType python let &makeprg="python3 %"
-au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
-au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
-au FileType tex let &makeprg="pdflatex main.tex"
-au FileType tex let g:ncm2_look_enabled=1
-au FileType java let &makeprg="javac %"
