@@ -22,6 +22,7 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
 "ncm2 basic tools
+"pynvim version should be 0.4.3
 Plugin 'ncm2/ncm2'
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
@@ -37,63 +38,29 @@ Plugin 'fgrsnau/ncm2-otherbuf'
 "ncm2 dictionary
 Plugin 'filipekiss/ncm2-look.vim'
 
-"ncm2 typescript support
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Quramy/tsuquyomi'
-Plugin 'ncm2/nvim-typescript'
-
-"ncm2 java support
-Plugin 'ObserverOfTime/ncm2-jc2'
-Plugin 'artur-shaik/vim-javacomplete2'
-
-"ncm2 python support
-Plugin 'ncm2/ncm2-jedi'
-
-"ncm2 clang support
-Plugin 'ncm2/ncm2-pyclang'
-
-"ncm2 vimL support
-Plugin 'ncm2/ncm2-vim'
-Plugin 'Shougo/neco-vim'
-
-"ncm2 golang support
-Plugin 'ncm2/ncm2-go'
-Plugin 'stamblerre/gocode'
-
-"ncm2 rust support
-Plugin 'ncm2/ncm2-racer'
-Plugin 'rust-lang/rust.vim'
-
-"ncm2 lsp support
-Plugin 'prabirshrestha/vim-lsp'
-Plugin 'ncm2/ncm2-vim-lsp'
-"Plugin 'mattn/vim-lsp-settings'
-
-"ncm2 snippet
-Plugin 'ncm2/ncm2-ultisnips'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-
 "auto formatter
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
+
+"linter
+Plugin 'dense-analysis/ale'
 
 "vim basic plugins
 Plugin 'Yggdroot/indentLine'
 Plugin 'majutsushi/tagbar'
 Plugin 'vim-airline/vim-airline'
 Plugin 't6tn4k/vim-c-posix-syntax'
-Plugin 'AndrewRadev/sideways.vim'
-Plugin 'dense-analysis/ale'
 
 call vundle#end()
 
+
+
 " ale settings
-let g:ale_lint_on_text_changed = 0
+let g:ale_completion_enabled = 1
+
+let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
-let g:ale_lint_on_filetype_changed = 0
-let g:ale_lint_on_save = 1
 
 let g:ale_list_window_size = 5
 let g:ale_open_list = 1
@@ -106,9 +73,10 @@ augroup END
 let g:ale_linters = {
 \   'c': ['clangd'],
 \   'cpp': ['clangd'],
-\   'go': ['gobuild'],
+\   'go': ['gopls'],
 \   'java': ['javac'],
-\   'python': ['pyflakes'],
+\   'python': ['pylsp'],
+\   'vim': [],
 \}
 
 
@@ -186,25 +154,6 @@ command! -bang -nargs=* GGrep
 
 
 
-"move cusrosr in imode
-imap <C-h> <left>
-imap <C-j> <down>
-imap <C-k> <up>
-imap <C-l> <right>
-
-"argmentative setting
-nnoremap <c-h> :SidewaysJumpLeft<cr>
-nnoremap <c-l> :SidewaysJumpRight<cr>
-omap aa <Plug>SidewaysArgumentTextobjI
-xmap aa <Plug>SidewaysArgumentTextobjI
-
-"disable sql omni completion
-let g:omni_sql_no_default_maps = 1
-
-"disable javacomplete2 default mapping
-let g:JavaComplete_EnableDefaultMappings = 0
-let g:JavaComplete_InsertImports = 0
-
 "ncm2 settings
 " enable ncm2 for all buffers
 "
@@ -216,7 +165,6 @@ let g:ncm2#popup_limit = 10
 let g:ncm2#sorter = "abbrfuzzy"
 let g:ncm2#matcher = "abbrfuzzy"
 let g:lsp_fold_enabled = 0
-
 
 
 autocmd BufEnter * call ncm2#enable_for_buffer()
@@ -255,43 +203,6 @@ endfunction
 
 inoremap <expr> <Tab> Tab_Or_Complete()
 
-" wrap existing omnifunc
-" Note that omnifunc does not run in background and may probably block the
-" editor. If you don't want to be blocked by omnifunc too often, you could
-" add 180ms delay before the omni wrapper:
-"  'on_complete': ['ncm2#on_complete#delay', 180,
-"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-au User Ncm2Plugin call ncm2#register_source({
-            \ 'name' : 'css',
-            \ 'priority': 9,
-            \ 'subscope_enable': 1,
-            \ 'scope': ['css','scss'],
-            \ 'mark': 'css',
-            \ 'word_pattern': '[\w\-]+',
-            \ 'complete_pattern': ':\s*',
-            \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-            \ })
-
-
-let g:ncm2_pyclang#args_file_path = ['.clang_complete']
-
-"For MAC
-let g:ncm2_pyclang#library_path = '/Library/Developer/CommandLineTools/usr/lib/libclang.dylib'
-
-"For Ubuntu
-"let g:ncm2_pyclang#library_path = '/usr/lib/llvm-14/lib/libclang-14.so'
-
-
-"snippet settings   
-" Press enter key to trigger snippet expansion
-" The parameters are the same as `:help feedkeys()`
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
-" c-j c-k for moving in snippet
-"let g:UltiSnipsJumpForwardTrigger	= "<c-l>"
-"let g:UltiSnipsJumpBackwardTrigger	= "<c-j>"
-let g:UltiSnipsExpandTrigger="<c-b>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
 
 "syntax highlight setting
 let g:go_highlight_structs = 1 
@@ -361,28 +272,10 @@ set conceallevel=0
 nmap <C-g> :TagbarToggle<CR>
 vmap <C-x> :!pbcopy<CR>
 vmap <C-c> :w !pbcopy<CR><CR>
-
+nnoremap <m-]> :call FollowTag()<CR>
 
 " settings for vsplit shell
-if has('nvim')
-    nmap <C-\> :vsplit term://zsh<CR>
-else
-    nmap <C-\> :ConqueTermVSplit zsh<CR>
-endif
-
-
-" settings for tag navigation
-function! FollowTag()
-  if !exists("w:tagbrowse")
-    vsplit
-    let w:tagbrowse=1
-  endif
-  execute "tag " . expand("<cword>")
-endfunction
-
-nnoremap <c-]> :call FollowTag()<CR>
-
-
+nmap <C-\> :vsplit term://zsh<CR>
 
 autocmd FileType rust setlocal ts=2 sw=2
 autocmd FileType python setlocal ts=4 sw=4
@@ -392,11 +285,3 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
 autocmd BufNewFile,BufRead *.tex setlocal filetype=tex
 
-au FileType c let &makeprg="clang -std=c99 -g -o %< %"
-au FileType cpp let &makeprg="clang++ -std=c++17 -g -o %< %"
-au FileType python let &makeprg="python3 %"
-au FileType go let &makeprg="go build -gcflags \"-N -l\" %"
-au FileType markdown let &makeprg="pandoc % -o %<.pdf -H ~/.pandoc_opt.sty"
-au FileType tex let &makeprg="pdflatex main.tex"
-au FileType tex let g:ncm2_look_enabled=1
-au FileType java let &makeprg="javac %"
