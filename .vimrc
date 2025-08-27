@@ -22,7 +22,6 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
 "ncm2 basic tools
-"pynvim version should be 0.4.3
 Plugin 'ncm2/ncm2'
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
@@ -269,10 +268,12 @@ set shiftwidth=2
 set softtabstop=2
 set conceallevel=0
 
+let g:tagbar_ctags_bin = '/opt/homebrew/bin/ctags'
 nmap <C-g> :TagbarToggle<CR>
 vmap <C-x> :!pbcopy<CR>
 vmap <C-c> :w !pbcopy<CR><CR>
-nnoremap <m-]> :call FollowTag()<CR>
+nmap <m-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
 
 " settings for vsplit shell
 nmap <C-\> :vsplit term://zsh<CR>
