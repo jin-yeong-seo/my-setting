@@ -52,8 +52,6 @@ Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/vim-lsp'
 Plugin 'ncm2/ncm2-vim-lsp'
 
-
-
 "linter
 Plugin 'dense-analysis/ale'
 
@@ -65,19 +63,11 @@ Plugin 't6tn4k/vim-c-posix-syntax'
 
 call vundle#end()
 
-"snippet setting
-" Press enter key to trigger snippet expansion
-" The parameters are the same as `:help feedkeys()`
-inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
-" c-j c-k for moving in snippet
-let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
-let g:UltiSnipsJumpForwardTrigger	= "<m-j>"
-let g:UltiSnipsJumpBackwardTrigger	= "<m-k>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
-
 
 "lsp setting
+let g:lsp_diagnostics_enabled = 0       
+
+
 au User lsp_setup call lsp#register_server({
       \ 'name': 'jedi',
       \ 'cmd': {server_info->['jedi-language-server']},
@@ -100,10 +90,15 @@ au User lsp_setup call lsp#register_server({
 let g:ale_completion_enabled = 0
 let g:ale_disable_lsp = 1
 let g:ale_virtualtext_cursor = 'disabled'
+let g:ale_set_signs = 0
+let g:ale_set_highlights = 0
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
 
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_lint_on_enter = 0
+
 
 let g:ale_list_window_size = 5
 let g:ale_open_list = 1
@@ -120,6 +115,7 @@ let g:ale_linters = {
 \   'python': ['pyflakes'],
 \   'vim': [],
 \}
+
 
 
 " fzf settings
@@ -244,6 +240,17 @@ function! Tab_Or_Complete() abort
 endfunction
 
 inoremap <expr> <Tab> Tab_Or_Complete()
+
+"snippet setting
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+" c-j c-k for moving in snippet
+let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<m-l>"
+let g:UltiSnipsJumpBackwardTrigger	= "<m-j>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
 
 
 "syntax highlight setting
