@@ -90,10 +90,6 @@ au User lsp_setup call lsp#register_server({
 let g:ale_completion_enabled = 0
 let g:ale_disable_lsp = 1
 let g:ale_virtualtext_cursor = 'disabled'
-let g:ale_set_signs = 0
-let g:ale_set_highlights = 0
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
 
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
@@ -110,7 +106,7 @@ augroup END
 
 let g:ale_linters = {
 \   'c': ['clang'],
-\   'cpp': ['clang'],
+\   'cpp': ['clang++'],
 \   'go': ['gobuild'],
 \   'python': ['pyflakes'],
 \   'vim': [],
