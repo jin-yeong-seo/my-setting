@@ -41,6 +41,15 @@ Plugin 'filipekiss/ncm2-look.vim'
 Plugin 'google/vim-maktaba'
 Plugin 'google/vim-codefmt'
 
+"snippet
+Plugin 'ncm2/ncm2-ultisnips'
+Plugin 'SirVer/ultisnips'
+
+"lsp
+Plugin 'prabirshrestha/async.vim'
+Plugin 'prabirshrestha/vim-lsp'
+Plugin 'prabirshrestha/ncm2-vim-lsp'
+
 "linter
 Plugin 'dense-analysis/ale'
 
@@ -52,10 +61,40 @@ Plugin 't6tn4k/vim-c-posix-syntax'
 
 call vundle#end()
 
+"snippet setting
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
+" c-j c-k for moving in snippet
+let g:UltiSnipsExpandTrigger		= "<Plug>(ultisnips_expand)"
+let g:UltiSnipsJumpForwardTrigger	= "<m-j>"
+let g:UltiSnipsJumpBackwardTrigger	= "<m-k>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+
+
+"lsp setting
+au User lsp_setup call lsp#register_server({
+      \ 'name': 'jedi',
+      \ 'cmd': {server_info->['jedi-language-server']},
+      \ 'allowlist': ['python'],
+      \ })
+
+au User lsp_setup call lsp#register_server({
+      \ 'name': 'gopls',
+      \ 'cmd': {server_info->['gopls']},
+      \ 'allowlist': ['go'],
+      \ })
+
+au User lsp_setup call lsp#register_server({
+      \ 'name': 'clangd',
+      \ 'cmd': {server_info->['clangd']},
+      \ 'allowlist': ['c','cpp'],
+      \ })
 
 " ale settings
-let g:ale_completion_enabled = 1
+let g:ale_completion_enabled = 0
+let g:ale_disable_lsp = 1
 
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
@@ -72,9 +111,8 @@ augroup END
 let g:ale_linters = {
 \   'c': ['clangd'],
 \   'cpp': ['clangd'],
-\   'go': ['gopls'],
-\   'java': ['javac'],
-\   'python': ['pylsp'],
+\   'go': ['gobuild'],
+\   'python': ['pyflakes'],
 \   'vim': [],
 \}
 
