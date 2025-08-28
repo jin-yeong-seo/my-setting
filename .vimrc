@@ -44,11 +44,15 @@ Plugin 'google/vim-codefmt'
 "snippet
 Plugin 'ncm2/ncm2-ultisnips'
 Plugin 'SirVer/ultisnips'
+Plugin 'thomasfaingnaert/vim-lsp-snippets'
+Plugin 'thomasfaingnaert/vim-lsp-ultisnips'
 
 "lsp
 Plugin 'prabirshrestha/async.vim'
 Plugin 'prabirshrestha/vim-lsp'
-Plugin 'prabirshrestha/ncm2-vim-lsp'
+Plugin 'ncm2/ncm2-vim-lsp'
+
+
 
 "linter
 Plugin 'dense-analysis/ale'
@@ -95,6 +99,7 @@ au User lsp_setup call lsp#register_server({
 " ale settings
 let g:ale_completion_enabled = 0
 let g:ale_disable_lsp = 1
+let g:ale_virtualtext_cursor = 'disabled'
 
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
@@ -109,8 +114,8 @@ augroup END
 
 
 let g:ale_linters = {
-\   'c': ['clangd'],
-\   'cpp': ['clangd'],
+\   'c': ['clang'],
+\   'cpp': ['clang'],
 \   'go': ['gobuild'],
 \   'python': ['pyflakes'],
 \   'vim': [],
